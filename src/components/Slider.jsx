@@ -3,10 +3,6 @@ import axios from 'axios'
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2'
 import { getTrendingMovies } from '../services/GlobalApi'
 
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original'
-const apiKey = '2ee68e3a' // Replace with your OMDB API key
-const movieBaseUrl = 'http://www.omdbapi.com/'
-
 const screenWidth = window.innerWidth
 
 function Slider() {
@@ -14,7 +10,17 @@ function Slider() {
   const elementRef = useRef()
 
   useEffect(() => {
-    getTrendingMovies()
+    const fetchData = async () => {
+      try {
+        const trendingMovies = await getTrendingMovies()
+        console.log(trendingMovies)
+        setMovieList(trendingMovies)
+      } catch (error) {
+        console.error('Error fetching trending movies:', error)
+      }
+    }
+
+    fetchData()
   }, [])
 
   const sliderRight = (element) => {
